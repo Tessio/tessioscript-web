@@ -19,6 +19,11 @@
     --accent-purple-soft: #a663ff;
     --accent-pink: #ff2f9c;
     --accent-pink-soft: #ff6fbb;
+    --accent-blue: #2ee0ff;
+    --accent-orange: #ff9d2e;
+    --ok-color: #37d67a;
+    --no-color: #ff5470;
+    --info-color: #ffb547;
     --text-primary: #f5eefc;
     --text-muted: #a496bb;
     --text-faint: #675a7e;
@@ -177,32 +182,75 @@
   .feature p{ font-size: 0.89rem; color: var(--text-muted); margin:0; }
 
   /* ---------- Pricing ---------- */
-  .pricing-grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap: 22px; align-items: stretch; }
+  .pricing-grid{
+    display:grid; grid-template-columns: repeat(4, 1fr); gap: 20px; align-items: stretch;
+    perspective: 1200px;
+  }
   .plan{
     background: var(--bg-panel); border: 1px solid var(--line);
-    border-radius: var(--radius-lg); padding: 32px 28px;
+    border-radius: var(--radius-lg); padding: 30px 24px;
     display:flex; flex-direction:column; position: relative;
-    transition: border-color .2s ease, transform .2s ease;
-  }
-  .plan:hover{ transform: translateY(-4px); border-color: var(--line-strong); }
-  .plan.featured{
-    border-color: var(--accent-pink-soft);
-    background: linear-gradient(180deg, rgba(255,47,156,0.07), var(--bg-panel) 45%);
-    box-shadow: 0 26px 60px -26px rgba(255,47,156,0.45);
+    transition: transform .12s ease-out, border-color .2s ease, box-shadow .2s ease;
+    will-change: transform;
   }
   .plan-badge{
-    position:absolute; top: -13px; right: 28px;
-    background: linear-gradient(135deg, var(--accent-purple), var(--accent-pink));
-    color:#fff; font-size: 0.72rem; font-weight:600; padding: 5px 12px; border-radius: 999px;
+    position:absolute; top: -13px; left: 50%; transform: translateX(-50%);
+    color:#0c0612; font-size: 0.7rem; font-weight:700; padding: 5px 14px; border-radius: 999px;
+    white-space: nowrap;
   }
   .plan-name{ font-family:'Space Grotesk',sans-serif; font-size:1.1rem; margin: 0 0 6px; }
-  .plan-tagline{ color: var(--text-faint); font-size: 0.85rem; margin: 0 0 24px; min-height: 2.6em; }
-  .plan-price{ display:flex; align-items:baseline; gap:6px; margin-bottom: 26px; }
-  .plan-price b{ font-family:'Space Grotesk',sans-serif; font-size: 2.3rem; }
-  .plan-price span{ color: var(--text-faint); font-size: 0.9rem; }
-  .plan ul{ list-style:none; margin: 0 0 28px; padding:0; display:flex; flex-direction:column; gap: 12px; flex-grow:1; }
-  .plan li{ display:flex; gap: 10px; font-size: 0.89rem; color: var(--text-muted); align-items:flex-start; }
-  .plan.featured li{ color: var(--text-primary); }
+  .plan-tagline{ color: var(--text-faint); font-size: 0.83rem; margin: 0 0 22px; min-height: 2.6em; }
+  .plan-price{ display:flex; align-items:baseline; gap:6px; margin-bottom: 24px; }
+  .plan-price b{ font-family:'Space Grotesk',sans-serif; font-size: 2.1rem; }
+  .plan-price span{ color: var(--text-faint); font-size: 0.88rem; }
+  .plan-price.invite b{ font-size: 1.5rem; }
+  .plan ul{ list-style:none; margin: 0 0 26px; padding:0; display:flex; flex-direction:column; gap: 12px; flex-grow:1; }
+  .plan li{ display:flex; gap: 9px; font-size: 0.83rem; color: var(--text-muted); align-items:flex-start; }
+  .plan li.excluded{ color: var(--text-faint); }
+
+  /* per-plan accent colors */
+  .plan.klvo{ border-color: rgba(139,59,255,0.32); }
+  .plan.klvo:hover{ border-color: rgba(139,59,255,0.7); box-shadow: 0 30px 60px -28px rgba(139,59,255,0.5); }
+  .plan.klvo .plan-badge{ background: linear-gradient(135deg, var(--accent-purple), var(--accent-purple-soft)); }
+  .plan.klvo .plan-price b{ color: var(--accent-purple-soft); }
+
+  .plan.pool{
+    border-color: rgba(255,47,156,0.4);
+    background: linear-gradient(180deg, rgba(255,47,156,0.07), var(--bg-panel) 45%);
+  }
+  .plan.pool:hover{ border-color: rgba(255,47,156,0.8); box-shadow: 0 30px 60px -28px rgba(255,47,156,0.55); }
+  .plan.pool .plan-badge{ background: linear-gradient(135deg, var(--accent-pink), var(--accent-pink-soft)); }
+  .plan.pool .plan-price b{ color: var(--accent-pink-soft); }
+
+  .plan.alv{ border-color: rgba(46,224,255,0.32); }
+  .plan.alv:hover{ border-color: rgba(46,224,255,0.75); box-shadow: 0 30px 60px -28px rgba(46,224,255,0.45); }
+  .plan.alv .plan-badge{ background: linear-gradient(135deg, #2ee0ff, #8ff2ff); }
+  .plan.alv .plan-price b{ color: var(--accent-blue); }
+
+  .plan.vip{ border-color: rgba(255,157,46,0.4); }
+  .plan.vip:hover{ border-color: rgba(255,157,46,0.85); box-shadow: 0 30px 60px -28px rgba(255,157,46,0.5); }
+  .plan.vip .plan-badge{ background: linear-gradient(135deg, var(--accent-orange), #ffc46b); }
+  .plan.vip .plan-price b{ color: var(--accent-orange); }
+
+  /* check / x / info icons + tooltip */
+  .feat-icon{ position:relative; flex-shrink:0; width:16px; height:16px; margin-top:1px; cursor: help; }
+  .feat-icon svg{ display:block; width:100%; height:100%; }
+  .feat-icon[data-tip]::after{
+    content: attr(data-tip);
+    position:absolute; left:50%; bottom:130%; transform:translateX(-50%) translateY(4px);
+    background: var(--bg-elevated-2); color: var(--text-primary);
+    border:1px solid var(--line-strong); border-radius:8px; padding:9px 11px;
+    font-size:0.72rem; line-height:1.4; width:190px; white-space:normal; text-align:left;
+    box-shadow:0 16px 34px -12px rgba(0,0,0,0.65); z-index:30;
+    opacity:0; pointer-events:none; transition: opacity .15s ease, transform .15s ease;
+  }
+  .feat-icon[data-tip]::before{
+    content:''; position:absolute; left:50%; bottom:120%; transform:translateX(-50%);
+    border:6px solid transparent; border-top-color:var(--bg-elevated-2);
+    opacity:0; pointer-events:none; transition: opacity .15s ease; z-index:30;
+  }
+  .feat-icon[data-tip]:hover::after{ opacity:1; transform:translateX(-50%) translateY(0); }
+  .feat-icon[data-tip]:hover::before{ opacity:1; }
 
   /* ---------- FAQ ---------- */
   .faq{ max-width: 720px; margin: 0 auto; }
@@ -238,8 +286,12 @@
     border-top: 1px solid var(--line); padding-top: 22px; flex-wrap:wrap; gap: 10px;
   }
 
+  @media (max-width: 1180px){
+    .pricing-grid{ grid-template-columns: repeat(2, 1fr); }
+  }
   @media (max-width: 880px){
-    .features-grid, .pricing-grid{ grid-template-columns: 1fr; }
+    .features-grid{ grid-template-columns: 1fr; }
+    .pricing-grid{ grid-template-columns: 1fr; }
     .nav-links{ display:none; }
     .hero{ padding: 90px 0 60px; }
   }
@@ -297,39 +349,39 @@
   <section id="funciones">
     <div class="wrap">
       <div class="section-head reveal">
-        <h2>Todo lo que ya usas en tu partida, en un solo panel</h2>
-        <p>Funciones construidas sobre los sistemas internos de GTA Online, no atajos genéricos.</p>
+        <h2>Un mod menú, infinitas posibilidades</h2>
+        <p>Funciones confiables, seguras, probadas y diseñadas para ti.</p>
       </div>
       <div class="features-grid reveal">
         <div class="feature">
           <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="#d9a6ff" stroke-width="1.6"><path d="M12 2l2.5 6.5L21 10l-5 4.5L17.5 22 12 18l-5.5 4L8 14.5 3 10l6.5-1.5L12 2z"/></svg>
-          <h3>Desbloqueo de premios y stats</h3>
-          <p>Reglas dedicadas para activar logros y estadísticas de GTA Online sin tocar el resto de tu progreso.</p>
+          <h3>Madafucking Unlocker</h3>
+          <p>Desbloquea la ropa, premios, vehículos, logros, pinturas, armas, articulos de eventos exclusivos, tan facil como cliquear un par de veces, sin riesgo alguno.</p>
         </div>
         <div class="feature">
           <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="#ff8fce" stroke-width="1.6"><rect x="3" y="8" width="18" height="12" rx="2"/><path d="M8 8V6a4 4 0 018 0v2"/></svg>
-          <h3>Configuración de heists</h3>
-          <p>Ajusta el Kortz Center y otros heists desde controles pensados para partidas repetidas.</p>
+          <h3>Heist Control</h3>
+          <p>Configura el golpe al Kortz Center y otros golpes más, para ganar dinero de manera segura y rapida.</p>
         </div>
         <div class="feature">
           <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="#c39bff" stroke-width="1.6"><path d="M3 12h4l3 8 4-16 3 8h4"/></svg>
-          <h3>Panel de negocios</h3>
-          <p>Sigue el estado de tu bunker y otras propiedades en tiempo real, sin salir del menú.</p>
+          <h3>Administrador de Negocios</h3>
+          <p>Lee las estadisticas, ejecuta ventas, compras, misiones y aumenta la cantidad de dinero pagado de todas tus propiedades en tiempo real, sin salir del mod menú.</p>
         </div>
         <div class="feature">
           <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="#ff8fce" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 2.5 15.5 0 18M12 3c-2.5 2.5-2.5 15.5 0 18"/></svg>
-          <h3>Menú traducido al español</h3>
-          <p>Sistema de traducción propio, mantenido de forma activa junto con cada actualización.</p>
+          <h3>Multiples Idiomas</h3>
+          <p>Sistema de traducción español y ingles, mantenido de forma activa junto con cada actualización.</p>
         </div>
         <div class="feature">
           <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="#d9a6ff" stroke-width="1.6"><path d="M12 3v6m0 6v6m9-9h-6m-6 0H3"/></svg>
-          <h3>Se actualiza con cada parche</h3>
-          <p>El menú detecta la versión del juego y se ajusta a los cambios internos sin que reinstales nada.</p>
+          <h3>Actualizaciones Constantes</h3>
+          <p>El equipo de desarrolladores trabaja arduamente para traer funciones nuevas, mejoras, estabilidad y seguridad en el mod menú de manera constante.</p>
         </div>
         <div class="feature">
           <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="#c39bff" stroke-width="1.6"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 118 0v4"/></svg>
           <h3>Acceso vía Patreon</h3>
-          <p>Inicio de sesión vinculado a tu cuenta, sin claves sueltas ni licencias que se comparten.</p>
+          <p>Inicio de sesión vinculado a tu cuenta, sin claves sueltas ni licencias que se comparten, baneo automatico de hwid al intentar eludir la seguridad o pasar a otra pc.</p>
         </div>
       </div>
     </div>
@@ -338,52 +390,109 @@
   <section id="precios">
     <div class="wrap">
       <div class="section-head reveal">
-        <h2>Elige tu nivel de acceso</h2>
-        <p>Los tres planes incluyen el menú base, actualizaciones automáticas y soporte por Discord.</p>
+        <h2>Selecciona tu suscripción</h2>
+        <p>Los tres planes incluyen el acceso al menú en la versión de Legacy, actualizaciones automáticas, soporte por Discord y mucho más.</p>
       </div>
       <div class="pricing-grid reveal">
-        <div class="plan">
+
+        <div class="plan klvo">
+          <span class="plan-badge">Morado</span>
           <p class="plan-name">KLVO GG</p>
-          <p class="plan-tagline">Para moverte por Los Santos con lo esencial cubierto.</p>
-          <div class="plan-price"><b>$4.99</b><span>/mes</span></div>
+          <p class="plan-tagline">Para moverte con lo esencial cubierto.</p>
+          <div class="plan-price"><b>$8.00</b><span>/mes</span></div>
           <ul>
-            <li>✓ Acceso al menú TessioScript base</li>
-            <li>✓ Actualizaciones automáticas</li>
-            <li>✓ Menú traducido al español</li>
-            <li>✓ Soporte por Discord</li>
-            <li>✓ 1 dispositivo activo</li>
+            <li><span class="feat-icon" data-tip="Acceso a la versión Legacy del mod menú, compatible con el modo clásico de GTA Online."><svg viewBox="0 0 24 24" fill="none" stroke="var(--ok-color)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>TessioScript Mod Menú - Legacy</li>
+            <li><span class="feat-icon" data-tip="Herramientas esenciales para moverte y jugar sin las restricciones básicas del juego."><svg viewBox="0 0 24 24" fill="none" stroke="var(--ok-color)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Acceso a Las Funciones Basicas</li>
+            <li><span class="feat-icon" data-tip="Genera cualquier vehículo del juego al instante, en cualquier lugar."><svg viewBox="0 0 24 24" fill="none" stroke="var(--ok-color)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Spawner de Vehículo</li>
+            <li><span class="feat-icon" data-tip="Sistemas anti-kick, anti-crash y anti-baneo para sesiones más seguras."><svg viewBox="0 0 24 24" fill="none" stroke="var(--ok-color)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Protecciones</li>
+            <li><span class="feat-icon" data-tip="Modifica el rendimiento, la apariencia y los componentes de tus vehículos."><svg viewBox="0 0 24 24" fill="none" stroke="var(--ok-color)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Editor de Vehículo</li>
+            <li><span class="feat-icon" data-tip="Desbloquea armas, ropa, vehículos y contenido restringido del juego."><svg viewBox="0 0 24 24" fill="none" stroke="var(--ok-color)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Desbloquear Todo</li>
+            <li><span class="feat-icon" data-tip="Guarda vehículos modificados en tu garaje personal de forma permanente."><svg viewBox="0 0 24 24" fill="none" stroke="var(--ok-color)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Guardar Vehículo Personal</li>
+            <li><span class="feat-icon" data-tip="Accede a los beneficios de la suscripción GTA+ sin pagarla aparte."><svg viewBox="0 0 24 24" fill="none" stroke="var(--ok-color)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Desbloquear GTA+</li>
+            <li><span class="feat-icon" data-tip="Combina prendas y colores que normalmente el juego bloquea entre sí."><svg viewBox="0 0 24 24" fill="none" stroke="var(--ok-color)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Editor de Ropa</li>
+            <li><span class="feat-icon" data-tip="Recupera cuentas baneadas o con progreso perdido."><svg viewBox="0 0 24 24" fill="none" stroke="var(--ok-color)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Recovery</li>
+            <li><span class="feat-icon" data-tip="Cambia el idioma del menú entre inglés y español cuando quieras."><svg viewBox="0 0 24 24" fill="none" stroke="var(--ok-color)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Menú Traducido a Ingles/Español</li>
+            <li><span class="feat-icon" data-tip="Atención directa de un miembro del equipo en Discord."><svg viewBox="0 0 24 24" fill="none" stroke="var(--ok-color)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Soporte personal por Discord</li>
+            <li><span class="feat-icon" data-tip="Descarga el menú directo, sin pasos intermedios ni acortadores."><svg viewBox="0 0 24 24" fill="none" stroke="var(--ok-color)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Descargas Directas</li>
+            <li><span class="feat-icon" data-tip="Incluye herramientas y mods adicionales fuera del menú principal."><svg viewBox="0 0 24 24" fill="none" stroke="var(--ok-color)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Acceso a Otras Herramientas y Mods</li>
+            <li><span class="feat-icon" data-tip="Tu licencia puede usarse en un solo equipo a la vez."><svg viewBox="0 0 24 24" fill="none" stroke="var(--ok-color)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>1 Dispositivo Activo</li>
+            <li class="excluded"><span class="feat-icon" data-tip="Prueba las funciones nuevas antes de su lanzamiento general."><svg viewBox="0 0 24 24" fill="none" stroke="var(--no-color)" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></span>Acceso Anticipado</li>
+            <li class="excluded"><span class="feat-icon" data-tip="Tus mensajes se atienden antes que los del resto de usuarios."><svg viewBox="0 0 24 24" fill="none" stroke="var(--no-color)" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></span>Soporte Prioritario</li>
+            <li class="excluded"><span class="feat-icon" data-tip="Ayuda para optimizar tu PC y resolver problemas ajenos al menú."><svg viewBox="0 0 24 24" fill="none" stroke="var(--no-color)" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></span>Soporte General de Sistema, Optimización, etc.</li>
+            <li><span class="feat-icon" data-tip="Sin límite de desbaneos durante el tiempo activo de tu suscripción."><svg viewBox="0 0 24 24" fill="none" stroke="var(--info-color)" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7.5h.01M11.2 11h1.3v6h1"/></svg></span>Desbaneos Ilimitados</li>
           </ul>
-          <a href="#" class="btn btn-ghost">Elegir KLVO GG</a>
+          <a href="https://www.patreon.com/checkout/TessioGG?rid=24280947" class="btn btn-ghost">Suscribirse a KLVO GG</a>
         </div>
-        <div class="plan featured">
-          <span class="plan-badge">Más elegido</span>
+
+        <div class="plan pool">
+          <span class="plan-badge">Rosado · Más elegido</span>
           <p class="plan-name">POOL GG</p>
           <p class="plan-tagline">Para quienes ya viven online y quieren más control.</p>
           <div class="plan-price"><b>$9.99</b><span>/mes</span></div>
           <ul>
-            <li>✓ Todo lo de KLVO GG</li>
-            <li>✓ Desbloqueo de premios y stats</li>
-            <li>✓ Configuración de heists (Kortz Center)</li>
-            <li>✓ Panel de negocios en tiempo real</li>
-            <li>✓ Soporte prioritario</li>
-            <li>✓ 2 dispositivos activos</li>
+            <li><span class="feat-icon" data-tip="Acceso tanto a la versión Legacy como a la nueva versión Enhanced del menú."><svg viewBox="0 0 24 24" fill="none" stroke="var(--ok-color)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>TessioScript Mod Menú - Enhanced y Legacy</li>
+            <li><span class="feat-icon" data-tip="Herramientas esenciales para moverte y jugar sin las restricciones básicas del juego."><svg viewBox="0 0 24 24" fill="none" stroke="var(--ok-color)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Acceso a Las Funciones Basicas</li>
+            <li><span class="feat-icon" data-tip="Genera cualquier vehículo del juego al instante, en cualquier lugar."><svg viewBox="0 0 24 24" fill="none" stroke="var(--ok-color)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Spawner de Vehículo</li>
+            <li><span class="feat-icon" data-tip="Sistemas anti-kick, anti-crash y anti-baneo para sesiones más seguras."><svg viewBox="0 0 24 24" fill="none" stroke="var(--ok-color)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Protecciones</li>
+            <li><span class="feat-icon" data-tip="Modifica el rendimiento, la apariencia y los componentes de tus vehículos."><svg viewBox="0 0 24 24" fill="none" stroke="var(--ok-color)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Editor de Vehículo</li>
+            <li><span class="feat-icon" data-tip="Desbloquea armas, ropa, vehículos y contenido restringido del juego."><svg viewBox="0 0 24 24" fill="none" stroke="var(--ok-color)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Desbloquear Todo</li>
+            <li><span class="feat-icon" data-tip="Guarda vehículos modificados en tu garaje personal de forma permanente."><svg viewBox="0 0 24 24" fill="none" stroke="var(--ok-color)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Guardar Vehículo Personal</li>
+            <li><span class="feat-icon" data-tip="Accede a los beneficios de la suscripción GTA+ sin pagarla aparte."><svg viewBox="0 0 24 24" fill="none" stroke="var(--ok-color)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Desbloquear GTA+</li>
+            <li><span class="feat-icon" data-tip="Combina prendas y colores que normalmente el juego bloquea entre sí."><svg viewBox="0 0 24 24" fill="none" stroke="var(--ok-color)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Editor de Ropa</li>
+            <li><span class="feat-icon" data-tip="Recupera cuentas baneadas o con progreso perdido."><svg viewBox="0 0 24 24" fill="none" stroke="var(--ok-color)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Recovery</li>
+            <li><span class="feat-icon" data-tip="Cambia el idioma del menú entre inglés y español cuando quieras."><svg viewBox="0 0 24 24" fill="none" stroke="var(--ok-color)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Menú Traducido a Ingles/Español</li>
+            <li><span class="feat-icon" data-tip="Atención directa de un miembro del equipo en Discord."><svg viewBox="0 0 24 24" fill="none" stroke="var(--ok-color)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Soporte personal por Discord</li>
+            <li><span class="feat-icon" data-tip="Descarga el menú directo, sin pasos intermedios ni acortadores."><svg viewBox="0 0 24 24" fill="none" stroke="var(--ok-color)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Descargas Directas</li>
+            <li><span class="feat-icon" data-tip="Incluye herramientas y mods adicionales fuera del menú principal."><svg viewBox="0 0 24 24" fill="none" stroke="var(--ok-color)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Acceso a Otras Herramientas y Mods</li>
+            <li><span class="feat-icon" data-tip="Tu licencia puede usarse en un solo equipo a la vez."><svg viewBox="0 0 24 24" fill="none" stroke="var(--ok-color)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>1 Dispositivo Activo</li>
+            <li><span class="feat-icon" data-tip="Prueba las funciones nuevas antes de su lanzamiento general."><svg viewBox="0 0 24 24" fill="none" stroke="var(--ok-color)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Acceso Anticipado</li>
+            <li><span class="feat-icon" data-tip="Tus mensajes se atienden antes que los del resto de usuarios."><svg viewBox="0 0 24 24" fill="none" stroke="var(--ok-color)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Soporte Prioritario</li>
+            <li class="excluded"><span class="feat-icon" data-tip="Ayuda para optimizar tu PC y resolver problemas ajenos al menú."><svg viewBox="0 0 24 24" fill="none" stroke="var(--no-color)" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></span>Soporte General de Sistema, Optimización, Etc.</li>
+            <li><span class="feat-icon" data-tip="Sin límite de desbaneos durante el tiempo activo de tu suscripción."><svg viewBox="0 0 24 24" fill="none" stroke="var(--info-color)" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7.5h.01M11.2 11h1.3v6h1"/></svg></span>Desbaneos Ilimitados</li>
           </ul>
-          <a href="#" class="btn btn-primary">Elegir POOL GG</a>
+          <a href="https://www.patreon.com/checkout/TessioGG?rid=24280971" class="btn btn-primary">Elegir POOL GG</a>
         </div>
-        <div class="plan">
+
+        <div class="plan alv">
+          <span class="plan-badge">Azul Eléctrico</span>
           <p class="plan-name">ALV GG</p>
           <p class="plan-tagline">El acceso completo, sin límites.</p>
           <div class="plan-price"><b>$19.99</b><span>/mes</span></div>
           <ul>
-            <li>✓ Todo lo de POOL GG</li>
-            <li>✓ Funciones ScriptLocal avanzadas</li>
-            <li>✓ Acceso anticipado a nuevas versiones</li>
-            <li>✓ Canal privado en Discord</li>
-            <li>✓ Rol premium personalizado</li>
-            <li>✓ Dispositivos ilimitados</li>
+            <li><span class="feat-icon" data-tip="Acceso tanto a la versión Legacy como a la nueva versión Enhanced del menú."><svg viewBox="0 0 24 24" fill="none" stroke="var(--ok-color)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>TessioScript Mod Menú - Enhanced y Legacy</li>
+            <li><span class="feat-icon" data-tip="Herramientas esenciales para moverte y jugar sin las restricciones básicas del juego."><svg viewBox="0 0 24 24" fill="none" stroke="var(--ok-color)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Acceso a Las Funciones Basicas</li>
+            <li><span class="feat-icon" data-tip="Genera cualquier vehículo del juego al instante, en cualquier lugar."><svg viewBox="0 0 24 24" fill="none" stroke="var(--ok-color)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Spawner de Vehículo</li>
+            <li><span class="feat-icon" data-tip="Sistemas anti-kick, anti-crash y anti-baneo para sesiones más seguras."><svg viewBox="0 0 24 24" fill="none" stroke="var(--ok-color)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Protecciones</li>
+            <li><span class="feat-icon" data-tip="Modifica el rendimiento, la apariencia y los componentes de tus vehículos."><svg viewBox="0 0 24 24" fill="none" stroke="var(--ok-color)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Editor de Vehículo</li>
+            <li><span class="feat-icon" data-tip="Desbloquea armas, ropa, vehículos y contenido restringido del juego."><svg viewBox="0 0 24 24" fill="none" stroke="var(--ok-color)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Desbloquear Todo</li>
+            <li><span class="feat-icon" data-tip="Guarda vehículos modificados en tu garaje personal de forma permanente."><svg viewBox="0 0 24 24" fill="none" stroke="var(--ok-color)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Guardar Vehículo Personal</li>
+            <li><span class="feat-icon" data-tip="Accede a los beneficios de la suscripción GTA+ sin pagarla aparte."><svg viewBox="0 0 24 24" fill="none" stroke="var(--ok-color)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Desbloquear GTA+</li>
+            <li><span class="feat-icon" data-tip="Combina prendas y colores que normalmente el juego bloquea entre sí."><svg viewBox="0 0 24 24" fill="none" stroke="var(--ok-color)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Editor de Ropa</li>
+            <li><span class="feat-icon" data-tip="Recupera cuentas baneadas o con progreso perdido."><svg viewBox="0 0 24 24" fill="none" stroke="var(--ok-color)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Recovery</li>
+            <li><span class="feat-icon" data-tip="Cambia el idioma del menú entre inglés y español cuando quieras."><svg viewBox="0 0 24 24" fill="none" stroke="var(--ok-color)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Menú Traducido a Ingles/Español</li>
+            <li><span class="feat-icon" data-tip="Atención directa de un miembro del equipo en Discord."><svg viewBox="0 0 24 24" fill="none" stroke="var(--ok-color)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Soporte personal por Discord</li>
+            <li><span class="feat-icon" data-tip="Descarga el menú directo, sin pasos intermedios ni acortadores."><svg viewBox="0 0 24 24" fill="none" stroke="var(--ok-color)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Descargas Directas</li>
+            <li><span class="feat-icon" data-tip="Incluye herramientas y mods adicionales fuera del menú principal."><svg viewBox="0 0 24 24" fill="none" stroke="var(--ok-color)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Acceso a Otras Herramientas y Mods</li>
+            <li><span class="feat-icon" data-tip="Tu licencia puede usarse en un solo equipo a la vez."><svg viewBox="0 0 24 24" fill="none" stroke="var(--ok-color)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>1 Dispositivo Activo</li>
+            <li><span class="feat-icon" data-tip="Prueba las funciones nuevas antes de su lanzamiento general."><svg viewBox="0 0 24 24" fill="none" stroke="var(--ok-color)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Acceso Anticipado</li>
+            <li><span class="feat-icon" data-tip="Tus mensajes se atienden antes que los del resto de usuarios."><svg viewBox="0 0 24 24" fill="none" stroke="var(--ok-color)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Soporte Prioritario</li>
+            <li><span class="feat-icon" data-tip="Ayuda para optimizar tu PC y resolver problemas ajenos al menú."><svg viewBox="0 0 24 24" fill="none" stroke="var(--ok-color)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Soporte General de Sistema, Optimización, etc.</li>
+            <li><span class="feat-icon" data-tip="Sin límite de desbaneos durante el tiempo activo de tu suscripción."><svg viewBox="0 0 24 24" fill="none" stroke="var(--ok-color)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Desbaneos Ilimitados</li>
           </ul>
-          <a href="#" class="btn btn-ghost">Elegir ALV GG</a>
+          <a href="https://www.patreon.com/checkout/TessioGG?rid=24281014" class="btn btn-ghost">Elegir ALV GG</a>
         </div>
+
+        <div class="plan vip">
+          <span class="plan-badge">Naranja · Invitación</span>
+          <p class="plan-name">VIP</p>
+          <p class="plan-tagline">Acceso completo, solo por invitación.</p>
+          <div class="plan-price invite"><b>Solo por invitación</b></div>
+          <ul>
+            <li><span class="feat-icon" data-tip="Acceso de por vida a todas las funciones actuales y futuras del menú, sin pagos recurrentes."><svg viewBox="0 0 24 24" fill="none" stroke="var(--ok-color)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Acceso a Todo de Por Vida</li>
+          </ul>
+          <a href="#" class="btn btn-ghost">Solicitar invitación</a>
+        </div>
+
       </div>
     </div>
   </section>
@@ -396,8 +505,8 @@
       </div>
       <div class="faq reveal">
         <details open>
-          <summary>¿Qué diferencia hay entre KLVO GG, POOL GG y ALV GG?</summary>
-          <p>Cada nivel suma más control sobre GTA Online: KLVO GG cubre el menú base y las actualizaciones, POOL GG agrega premios, heists y el panel de negocios, y ALV GG desbloquea todo, incluyendo funciones anticipadas y soporte directo.</p>
+          <summary>¿Qué diferencia hay entre KLVO GG, POOL GG, ALV GG y VIP?</summary>
+          <p>Cada nivel suma más control sobre GTA Online: KLVO GG cubre el menú base, POOL GG agrega acceso anticipado y soporte prioritario, ALV GG desbloquea todo sin restricciones, y VIP es una membresía de por vida solo por invitación.</p>
         </details>
         <details>
           <summary>¿Puedo cambiar de plan más adelante?</summary>
@@ -424,7 +533,7 @@
       <div class="cta-band reveal">
         <h2>¿No sabes qué plan elegir?</h2>
         <p>Empieza con KLVO GG y sube de nivel cuando lo necesites, sin perder tu progreso.</p>
-        <a href="#precios" class="btn btn-primary">Ver los tres planes</a>
+        <a href="#precios" class="btn btn-primary">Ver los planes</a>
       </div>
     </div>
   </section>
@@ -468,6 +577,7 @@
       root.setAttribute('data-theme', isLight ? 'dark' : 'light');
     });
   }
+
   var els = document.querySelectorAll('.reveal');
   if('IntersectionObserver' in window){
     var io = new IntersectionObserver(function(entries){
@@ -478,6 +588,26 @@
     els.forEach(function(el){ io.observe(el); });
   } else {
     els.forEach(function(el){ el.classList.add('in'); });
+  }
+
+  // 3D tilt / parallax on pricing cards
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(!reduceMotion){
+    document.querySelectorAll('.plan').forEach(function(card){
+      card.addEventListener('mousemove', function(e){
+        var rect = card.getBoundingClientRect();
+        var x = e.clientX - rect.left;
+        var y = e.clientY - rect.top;
+        var cx = rect.width / 2;
+        var cy = rect.height / 2;
+        var rotateY = ((x - cx) / cx) * 7;
+        var rotateX = -((y - cy) / cy) * 7;
+        card.style.transform = 'perspective(900px) rotateX(' + rotateX + 'deg) rotateY(' + rotateY + 'deg) translateY(-6px)';
+      });
+      card.addEventListener('mouseleave', function(){
+        card.style.transform = '';
+      });
+    });
   }
 </script>
 
