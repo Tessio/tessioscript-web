@@ -254,15 +254,34 @@
   .feat-icon[data-tip]:hover::before{ opacity:1; }
 
   /* ---------- Video gallery ---------- */
-  .video-embed{
-    max-width: 900px; margin: 0 auto;
-    border-radius: var(--radius-lg); overflow: hidden;
-    border: 1px solid var(--line-strong);
-    box-shadow: 0 40px 90px -30px rgba(139,59,255,0.4);
-    aspect-ratio: 16/9;
-    background: var(--bg-panel);
+  .video-gallery{
+    display:flex; gap: 18px; overflow-x:auto; padding: 6px 4px 18px;
+    scroll-snap-type: x mandatory;
   }
-  .video-embed iframe{ width:100%; height:100%; border:0; display:block; }
+  .video-gallery::-webkit-scrollbar{ height:8px; }
+  .video-gallery::-webkit-scrollbar-track{ background: var(--bg-panel); border-radius:8px; }
+  .video-gallery::-webkit-scrollbar-thumb{ background: linear-gradient(135deg, var(--accent-purple), var(--accent-pink)); border-radius:8px; }
+  .video-card{
+    flex: 0 0 280px; scroll-snap-align:start; text-decoration:none; color: var(--text-primary);
+    background: var(--bg-panel); border: 1px solid var(--line); border-radius: var(--radius-md);
+    overflow:hidden; transition: border-color .2s ease, transform .2s ease;
+  }
+  .video-card:hover{ border-color: var(--line-strong); transform: translateY(-4px); }
+  .video-thumb{ position:relative; width:100%; aspect-ratio:16/9; background: var(--bg-elevated); overflow:hidden; }
+  .video-thumb img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .video-thumb::before{
+    content:''; position:absolute; inset:0; margin:auto; width:46px; height:46px; border-radius:50%;
+    background: rgba(12,6,18,0.55); backdrop-filter: blur(2px);
+  }
+  .video-thumb::after{
+    content:''; position:absolute; top:50%; left:50%; transform: translate(-46%,-50%);
+    border-style: solid; border-width: 8px 0 8px 14px; border-color: transparent transparent transparent #fff;
+  }
+  .video-card-title{
+    margin:0; padding: 12px 14px; font-size:0.9rem; font-weight:600; line-height:1.35;
+    display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
+  }
+  .video-gallery-empty{ color: var(--text-faint); font-size:0.9rem; text-align:center; padding: 40px 0; width:100%; }
 
   /* ---------- FAQ ---------- */
   .faq{ max-width: 720px; margin: 0 auto; }
@@ -516,15 +535,8 @@
         <h2>Últimos videos</h2>
         <p>Tutoriales, actualizaciones y novedades directo desde nuestro canal de YouTube.</p>
       </div>
-      <div class="video-embed reveal">
-        <iframe
-          src="https://www.youtube.com/embed?listType=playlist&list=UUoed3-yaY1y9inwhNnmL7cg"
-          title="Videos de TessioScript"
-          frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowfullscreen
-          loading="lazy">
-        </iframe>
+      <div class="video-gallery" id="video-gallery">
+        <p class="video-gallery-empty">Cargando videos…</p>
       </div>
     </div>
   </section>
@@ -642,6 +654,51 @@
       });
     });
   }
+
+  // Últimos videos de YouTube (feed RSS del canal, siempre actualizado)
+  (function loadLatestVideos(){
+    var channelID = "UCoed3-yaY1y9inwhNnmL7cg";
+    var gallery = document.getElementById('video-gallery');
+    var rssUrl = "https://www.youtube.com/feeds/videos.xml?channel_id=" + channelID;
+    var apiUrl = "https://api.rss2json.com/v1/api.json?rss_url=" + encodeURIComponent(rssUrl);
+
+    fetch(apiUrl)
+      .then(function(res){ return res.json(); })
+      .then(function(data){
+        if(!data.items || !data.items.length){ throw new Error('sin videos'); }
+        gallery.innerHTML = '';
+        data.items.slice(0, 10).forEach(function(item){
+          var link = item.link;
+          var id = link.substring(link.indexOf('=') + 1);
+          var thumb = 'https://i.ytimg.com/vi/' + id + '/hqdefault.jpg';
+
+          var card = document.createElement('a');
+          card.href = link;
+          card.target = '_blank';
+          card.rel = 'noopener';
+          card.className = 'video-card';
+
+          var thumbWrap = document.createElement('div');
+          thumbWrap.className = 'video-thumb';
+          var img = document.createElement('img');
+          img.src = thumb;
+          img.alt = item.title;
+          img.loading = 'lazy';
+          thumbWrap.appendChild(img);
+
+          var title = document.createElement('p');
+          title.className = 'video-card-title';
+          title.textContent = item.title;
+
+          card.appendChild(thumbWrap);
+          card.appendChild(title);
+          gallery.appendChild(card);
+        });
+      })
+      .catch(function(){
+        gallery.innerHTML = '<p class="video-gallery-empty">No se pudieron cargar los videos. Visita nuestro <a href="https://www.youtube.com/@TessioScript" target="_blank" rel="noopener" style="color:var(--accent-pink-soft)">canal de YouTube</a>.</p>';
+      });
+  })();
 </script>
 
 </body>
