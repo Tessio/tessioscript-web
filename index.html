@@ -136,9 +136,9 @@
   @keyframes fade-up{ from{ opacity:0; transform: translateY(14px); } to{ opacity:1; transform: translateY(0); } }
 
   .scroll-hint{
-    position:absolute; bottom: 38px; left:50%; transform: translateX(-50%);
+    position:absolute; bottom: 38px; left: 0; right: 0; margin: 0 auto; width: fit-content;
     display:flex; flex-direction:column; align-items:center; gap:8px;
-    font-size: 0.76rem; color: var(--text-faint); letter-spacing: 0.03em;
+    font-size: 0.76rem; color: var(--text-faint); letter-spacing: 0.03em; text-align:center;
     animation: fade-up .8s ease .5s both;
   }
   .scroll-hint svg{ animation: bob 1.8s ease-in-out infinite; }
@@ -161,7 +161,7 @@
 
   /* ---------- Product preview (menu screenshot) ---------- */
   .preview{ padding: 20px 0 80px; }
-  .preview-img{ max-width: 1220px; width:100%; margin: 0 auto; }
+  .preview-img{ max-width: 1000px; width:100%; margin: 0 auto; }
 
   /* ---------- Sections shared ---------- */
   section{ padding: 90px 0; }
