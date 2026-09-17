@@ -186,6 +186,7 @@
     display:grid; grid-template-columns: repeat(4, 1fr); gap: 20px; align-items: stretch;
     perspective: 1200px;
   }
+  #precios .wrap{ max-width: 1320px; }
   .plan{
     background: var(--bg-panel); border: 1px solid var(--line);
     border-radius: var(--radius-lg); padding: 30px 24px;
@@ -203,7 +204,7 @@
   .plan-price{ display:flex; align-items:baseline; gap:6px; margin-bottom: 24px; }
   .plan-price b{ font-family:'Space Grotesk',sans-serif; font-size: 2.1rem; }
   .plan-price span{ color: var(--text-faint); font-size: 0.88rem; }
-  .plan-price.invite b{ font-size: 1.5rem; }
+  .plan-invite-note{ margin: -16px 0 24px; font-size: 0.85rem; font-weight:600; color: var(--text-faint); }
   .plan ul{ list-style:none; margin: 0 0 26px; padding:0; display:flex; flex-direction:column; gap: 12px; flex-grow:1; }
   .plan li{ display:flex; gap: 9px; font-size: 0.83rem; color: var(--text-muted); align-items:flex-start; }
   .plan li.excluded{ color: var(--text-faint); }
@@ -401,7 +402,7 @@
           <p class="plan-tagline">Accede al mod menú en legacy y domina lo esencial con seguridad.</p>
           <div class="plan-price"><b>$8.00</b><span>/mes</span></div>
           <ul>
-            <li><span class="feat-icon" data-tip="Acceso a la versión Legacy del mod menú."><svg viewBox="0 0 30 30" fill="none" stroke="var(--ok-color)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>TS - Legacy</li>
+            <li><span class="feat-icon" data-tip="Acceso a la versión Legacy del mod menú."><svg viewBox="0 0 24 24" fill="none" stroke="var(--ok-color)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>TS - Legacy</li>
             <li><span class="feat-icon" data-tip="Herramientas esenciales para moverte y jugar sin las restricciones básicas del juego."><svg viewBox="0 0 24 24" fill="none" stroke="var(--ok-color)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Acceso a Las Funciones Basicas</li>
             <li><span class="feat-icon" data-tip="Genera cualquier vehículo del juego al instante, en cualquier lugar."><svg viewBox="0 0 24 24" fill="none" stroke="var(--ok-color)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Spawner de Vehículo</li>
             <li><span class="feat-icon" data-tip="Sistemas anti-kick, anti-crash y anti-baneo para sesiones más seguras."><svg viewBox="0 0 24 24" fill="none" stroke="var(--ok-color)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Protecciones</li>
@@ -486,8 +487,8 @@
           <span class="plan-badge">VIP · Invitación</span>
           <p class="plan-name">DEUS GG</p>
           <p class="plan-tagline">Acceso completo de por vida, solo por invitación.</p>
-          <div class="plan-price invite"><b>$250</b></div>
-            <div class="plan-price invite"><b>Solo por invitación</b></div>
+          <div class="plan-price"><b>$250</b><span>/ único pago</span></div>
+          <p class="plan-invite-note">Solo por invitación</p>
               <ul>
                 <li><span class="feat-icon" data-tip="Acceso de por vida a todas las funciones actuales y futuras del menú, sin pagos recurrentes, sin límites."><svg viewBox="0 0 24 24" fill="none" stroke="var(--ok-color)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Acceso a Todo de Por Vida</li>
               </ul>
