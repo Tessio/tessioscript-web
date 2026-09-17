@@ -161,15 +161,7 @@
 
   /* ---------- Product preview (menu screenshot) ---------- */
   .preview{ padding: 20px 0 80px; }
-  .mock-window{
-    max-width: 860px; margin: 0 auto;
-    background: linear-gradient(160deg, var(--bg-elevated), var(--bg-panel));
-    border: 1px solid var(--line-strong);
-    border-radius: var(--radius-lg);
-    box-shadow: 0 40px 90px -30px rgba(139,59,255,0.4);
-    overflow: hidden;
-  }
-  .mock-window img{ display:block; width:100%; height:auto; }
+  .preview-img{ max-width: 720px; width:100%; margin: 0 auto; }
 
   /* ---------- Sections shared ---------- */
   section{ padding: 90px 0; }
@@ -248,8 +240,6 @@
 
   @media (max-width: 880px){
     .features-grid, .pricing-grid{ grid-template-columns: 1fr; }
-    .mock-body{ grid-template-columns: 1fr; }
-    .mock-tabs{ flex-direction:row; overflow-x:auto; border-right:none; border-bottom: 1px solid var(--line); }
     .nav-links{ display:none; }
     .hero{ padding: 90px 0 60px; }
   }
@@ -300,9 +290,7 @@
 
   <section class="preview">
     <div class="wrap">
-      <div class="mock-window reveal">
-        <img src="mod-menu-preview.png" alt="Vista previa del mod menu TessioScript">
-      </div>
+      <img class="preview-img reveal" src="mod-menu-preview.png" alt="Vista previa del mod menu TessioScript">
     </div>
   </section>
 
