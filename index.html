@@ -215,7 +215,7 @@
   .plan.klvo{ border-color: rgba(139,59,255,0.32); }
   .plan.klvo:hover{ border-color: rgba(139,59,255,0.7); box-shadow: 0 30px 60px -28px rgba(139,59,255,0.5); }
   .plan.klvo .plan-badge{ background: linear-gradient(135deg, var(--accent-purple), var(--accent-purple-soft)); }
-  .plan.klvo .plan-price b{ color: var(--accent-purple-soft); }
+  .plan.klvo <div class="plan-price"><b class="js-count" data-target="8" data-decimals="2">$0.00</b><span>/mes</span></div>
 
   .plan.pool{
     border-color: rgba(255,47,156,0.4);
@@ -223,17 +223,17 @@
   }
   .plan.pool:hover{ border-color: rgba(255,47,156,0.8); box-shadow: 0 30px 60px -28px rgba(255,47,156,0.55); }
   .plan.pool .plan-badge{ background: linear-gradient(135deg, var(--accent-pink), var(--accent-pink-soft)); }
-  .plan.pool .plan-price b{ color: var(--accent-pink-soft); }
+  <div class="plan-price"><b class="js-count" data-target="9.99" data-decimals="2">$0.00</b><span>/mes</span></div>
 
   .plan.alv{ border-color: rgba(46,224,255,0.32); }
   .plan.alv:hover{ border-color: rgba(46,224,255,0.75); box-shadow: 0 30px 60px -28px rgba(46,224,255,0.45); }
   .plan.alv .plan-badge{ background: linear-gradient(135deg, #2ee0ff, #8ff2ff); }
-  .plan.alv .plan-price b{ color: var(--accent-blue); }
+  .plan.alv <div class="plan-price"><b class="js-count" data-target="19.99" data-decimals="2">$0.00</b><span>/mes</span></div>
 
   .plan.vip{ border-color: rgba(255,157,46,0.4); }
   .plan.vip:hover{ border-color: rgba(255,157,46,0.85); box-shadow: 0 30px 60px -28px rgba(255,157,46,0.5); }
   .plan.vip .plan-badge{ background: linear-gradient(135deg, var(--accent-orange), #ffc46b); }
-  .plan.vip .plan-price b{ color: var(--accent-orange); }
+  .plan.vip <div class="plan-price"><b class="js-count" data-target="250" data-decimals="0">$0</b><span>/ único pago</span></div>
 
   /* check / x / info icons + tooltip */
   .feat-icon{ position:relative; flex-shrink:0; width:16px; height:16px; margin-top:1px; cursor: help; }
@@ -701,6 +701,56 @@
         gallery.innerHTML = '<p class="video-gallery-empty">No se pudieron cargar los videos. Visita nuestro <a href="https://www.youtube.com/@TessioScript" target="_blank" rel="noopener" style="color:var(--accent-pink-soft)">canal de YouTube</a>.</p>';
       });
   })();
+// Contador animado de 0 al valor real
+(function(){
+  function animateCount(el){
+    var target = parseFloat(el.dataset.target);
+    var decimals = parseInt(el.dataset.decimals || "0", 10);
+    var duration = 1200; // ms
+    var start = performance.now();
+
+    function step(now){
+      var progress = Math.min((now - start) / duration, 1);
+      var eased = 1 - Math.pow(1 - progress, 3); // ease-out cúbico
+      var value = target * eased;
+      el.textContent = "$" + value.toFixed(decimals);
+      if(progress < 1){
+        requestAnimationFrame(step);
+      } else {
+        el.textContent = "$" + target.toFixed(decimals);
+      }
+    }
+    requestAnimationFrame(step);
+  }
+
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var counters = document.querySelectorAll('.js-count');
+
+  if(reduceMotion){
+    // Sin animación: muestra el valor final directo
+    counters.forEach(function(el){
+      var target = parseFloat(el.dataset.target);
+      var decimals = parseInt(el.dataset.decimals || "0", 10);
+      el.textContent = "$" + target.toFixed(decimals);
+    });
+    return;
+  }
+
+  if('IntersectionObserver' in window){
+    var countIO = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          animateCount(entry.target);
+          countIO.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.4 });
+    counters.forEach(function(el){ countIO.observe(el); });
+  } else {
+    counters.forEach(animateCount);
+  }
+})();
+  
 </script>
 
 </body>
