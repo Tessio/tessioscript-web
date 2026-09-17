@@ -115,7 +115,7 @@
     background: radial-gradient(circle, rgba(139,59,255,0.45), transparent 70%);
     filter: blur(20px); z-index:-1;
   }
-  .hero-logo{ width: 300px; height: 300px; object-fit: contain; filter: drop-shadow(0 18px 30px rgba(139,59,255,0.45)); }
+  .hero-logo{ width: 170px; height: 170px; object-fit: contain; filter: drop-shadow(0 18px 30px rgba(139,59,255,0.45)); }
   @keyframes logo-in{
     0%{ opacity:0; transform: scale(0.7) translateY(14px); filter: blur(8px); }
     100%{ opacity:1; transform: scale(1) translateY(0); filter: blur(0); }
@@ -159,7 +159,7 @@
     --text-primary: #1c1229; --text-muted: #5c5270; --text-faint: #8b81a0;
   }
 
-  /* ---------- Product preview (menu mockup) ---------- */
+  /* ---------- Product preview (menu screenshot) ---------- */
   .preview{ padding: 20px 0 80px; }
   .mock-window{
     max-width: 860px; margin: 0 auto;
@@ -169,26 +169,7 @@
     box-shadow: 0 40px 90px -30px rgba(139,59,255,0.4);
     overflow: hidden;
   }
-  .mock-titlebar{ display:flex; align-items:center; gap:8px; padding: 13px 18px; border-bottom: 1px solid var(--line); }
-  .mock-dot{ width:10px; height:10px; border-radius:50%; }
-  .mock-dot.a{ background: var(--accent-pink); }
-  .mock-dot.b{ background: var(--accent-purple-soft); }
-  .mock-dot.c{ background: #3d2f56; }
-  .mock-title{ margin-left: 8px; font-size: 0.78rem; color: var(--text-faint); font-family:'Space Grotesk',sans-serif; }
-  .mock-body{ display:grid; grid-template-columns: 140px 1fr; min-height: 300px; }
-  .mock-tabs{ border-right: 1px solid var(--line); padding: 16px 10px; display:flex; flex-direction:column; gap:4px; }
-  .mock-tab{ padding: 9px 12px; border-radius: var(--radius-sm); font-size: 0.82rem; color: var(--text-muted); }
-  .mock-tab.active{ background: linear-gradient(135deg, rgba(139,59,255,0.35), rgba(255,47,156,0.28)); color: #fff; }
-  .mock-content{ padding: 24px; display:flex; flex-direction:column; gap:18px; }
-  .mock-row{ display:flex; align-items:center; justify-content:space-between; }
-  .mock-row-label{ font-size: 0.85rem; color: var(--text-primary); }
-  .mock-row-sub{ font-size: 0.72rem; color: var(--text-faint); }
-  .toggle{ width:38px; height:20px; border-radius:20px; background: var(--bg-void); border:1px solid var(--line-strong); position:relative; flex-shrink:0; }
-  .toggle.on{ background: linear-gradient(135deg, var(--accent-purple), var(--accent-pink)); }
-  .toggle::after{ content:''; position:absolute; width:14px; height:14px; border-radius:50%; background:#fff; top:2px; left:2px; }
-  .toggle.on::after{ left: 20px; }
-  .mock-slider{ height: 4px; border-radius: 4px; background: var(--bg-void); position:relative; margin-top:6px; }
-  .mock-slider::before{ content:''; position:absolute; left:0; top:0; height:100%; width:64%; border-radius:4px; background: linear-gradient(90deg, var(--accent-purple), var(--accent-pink)); }
+  .mock-window img{ display:block; width:100%; height:auto; }
 
   /* ---------- Sections shared ---------- */
   section{ padding: 90px 0; }
@@ -303,8 +284,8 @@
     <div class="hero-logo-wrap">
       <img src="logo.png" alt="TessioScript" class="hero-logo">
     </div>
-    <h1>El Mod Menú que R* no quiere que tengas</h1>
-    <p class="lead">Protegiendo tu cuenta con el mejor y más seguro recovery desde 2023.</p>
+    <h1>El menú que le pone reglas a Los Santos</h1>
+    <p class="lead">Desbloquea premios, controla heists y sigue tus negocios en tiempo real — todo en un panel tan cuidado como el juego que modifica.</p>
     <div class="hero-ctas">
       <a href="#precios" class="btn btn-primary">Ver planes premium →</a>
     </div>
@@ -320,37 +301,7 @@
   <section class="preview">
     <div class="wrap">
       <div class="mock-window reveal">
-        <div class="mock-titlebar">
-          <span class="mock-dot a"></span><span class="mock-dot b"></span><span class="mock-dot c"></span>
-          <span class="mock-title">TessioScript v2</span>
-        </div>
-        <div class="mock-body">
-          <div class="mock-tabs">
-            <div class="mock-tab">Online</div>
-            <div class="mock-tab active">Premios</div>
-            <div class="mock-tab">Negocios</div>
-            <div class="mock-tab">Vehículos</div>
-            <div class="mock-tab">Ajustes</div>
-          </div>
-          <div class="mock-content">
-            <div class="mock-row">
-              <div><div class="mock-row-label">Desbloquear todos los premios</div><div class="mock-row-sub">Kortz Center Awards</div></div>
-              <div class="toggle on"></div>
-            </div>
-            <div class="mock-row">
-              <div><div class="mock-row-label">Config. Kortz Center</div><div class="mock-row-sub">Match code sincronizado</div></div>
-              <div class="toggle on"></div>
-            </div>
-            <div>
-              <div class="mock-row-label" style="margin-bottom:4px;">Progreso de bunker</div>
-              <div class="mock-slider"></div>
-            </div>
-            <div class="mock-row">
-              <div><div class="mock-row-label">Traducción al español</div><div class="mock-row-sub">Activa por defecto</div></div>
-              <div class="toggle on"></div>
-            </div>
-          </div>
-        </div>
+        <img src="mod-menu-preview.png" alt="Vista previa del mod menu TessioScript">
       </div>
     </div>
   </section>
