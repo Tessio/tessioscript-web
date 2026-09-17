@@ -215,7 +215,7 @@
   .plan.klvo{ border-color: rgba(139,59,255,0.32); }
   .plan.klvo:hover{ border-color: rgba(139,59,255,0.7); box-shadow: 0 30px 60px -28px rgba(139,59,255,0.5); }
   .plan.klvo .plan-badge{ background: linear-gradient(135deg, var(--accent-purple), var(--accent-purple-soft)); }
-  .plan.klvo <div class="plan-price"><b class="js-count" data-target="8" data-decimals="2">$0.00</b><span>/mes</span></div>
+  .plan.klvo .plan-price b{ color: var(--accent-purple-soft); }
 
   .plan.pool{
     border-color: rgba(255,47,156,0.4);
@@ -223,17 +223,17 @@
   }
   .plan.pool:hover{ border-color: rgba(255,47,156,0.8); box-shadow: 0 30px 60px -28px rgba(255,47,156,0.55); }
   .plan.pool .plan-badge{ background: linear-gradient(135deg, var(--accent-pink), var(--accent-pink-soft)); }
-  <div class="plan-price"><b class="js-count" data-target="9.99" data-decimals="2">$0.00</b><span>/mes</span></div>
+  .plan.pool .plan-price b{ color: var(--accent-pink-soft); }
 
   .plan.alv{ border-color: rgba(46,224,255,0.32); }
   .plan.alv:hover{ border-color: rgba(46,224,255,0.75); box-shadow: 0 30px 60px -28px rgba(46,224,255,0.45); }
   .plan.alv .plan-badge{ background: linear-gradient(135deg, #2ee0ff, #8ff2ff); }
-  .plan.alv <div class="plan-price"><b class="js-count" data-target="19.99" data-decimals="2">$0.00</b><span>/mes</span></div>
+  .plan.alv .plan-price b{ color: var(--accent-blue); }
 
   .plan.vip{ border-color: rgba(255,157,46,0.4); }
   .plan.vip:hover{ border-color: rgba(255,157,46,0.85); box-shadow: 0 30px 60px -28px rgba(255,157,46,0.5); }
   .plan.vip .plan-badge{ background: linear-gradient(135deg, var(--accent-orange), #ffc46b); }
-  .plan.vip <div class="plan-price"><b class="js-count" data-target="250" data-decimals="0">$0</b><span>/ único pago</span></div>
+  .plan.vip .plan-price b{ color: var(--accent-orange); }
 
   /* check / x / info icons + tooltip */
   .feat-icon{ position:relative; flex-shrink:0; width:16px; height:16px; margin-top:1px; cursor: help; }
@@ -432,7 +432,7 @@
           <span class="plan-badge">Básico</span>
           <p class="plan-name">KLVO GG</p>
           <p class="plan-tagline">Accede al mod menú en legacy y domina lo esencial con seguridad.</p>
-          <div class="plan-price"><b>$8.00</b><span>/mes</span></div>
+          <div class="plan-price"><b class="js-count" data-target="8" data-decimals="2">$0.00</b><span>/mes</span></div>
           <ul>
             <li><span class="feat-icon" data-tip="Acceso a la versión Legacy del mod menú."><svg viewBox="0 0 24 24" fill="none" stroke="var(--ok-color)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>TS - Legacy</li>
             <li><span class="feat-icon" data-tip="Herramientas esenciales para moverte y jugar sin las restricciones básicas del juego."><svg viewBox="0 0 24 24" fill="none" stroke="var(--ok-color)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Acceso a Las Funciones Basicas</li>
@@ -461,7 +461,7 @@
           <span class="plan-badge">Regular · Más elegido</span>
           <p class="plan-name">POOL GG</p>
           <p class="plan-tagline">Accede al mod menú en legacy y enhanced, con mejoras de interfaz, seguridad, recovery y mucho más.</p>
-          <div class="plan-price"><b>$9.99</b><span>/mes</span></div>
+          <div class="plan-price"><b class="js-count" data-target="13.00" data-decimals="2">$0.00</b><span>/mes</span></div>
           <ul>
             <li><span class="feat-icon" data-tip="Acceso tanto a la versión Legacy como a la nueva versión Enhanced del menú."><svg viewBox="0 0 24 24" fill="none" stroke="var(--ok-color)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>TessioScript Mod Menú - Enhanced y Legacy</li>
             <li><span class="feat-icon" data-tip="Herramientas esenciales para moverte y jugar sin las restricciones básicas del juego."><svg viewBox="0 0 24 24" fill="none" stroke="var(--ok-color)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Acceso a Las Funciones Basicas</li>
@@ -490,7 +490,7 @@
           <span class="plan-badge">Definitivo</span>
           <p class="plan-name">ALV GG</p>
           <p class="plan-tagline">Accede al mod menú en legacy y enhanced, y a un monton de cosas más, sin límites.</p>
-          <div class="plan-price"><b>$19.99</b><span>/mes</span></div>
+          <div class="plan-price"><b class="js-count" data-target="25.00" data-decimals="2">$0.00</b><span>/mes</span></div>
           <ul>
             <li><span class="feat-icon" data-tip="Acceso tanto a la versión Legacy como a la nueva versión Enhanced del menú."><svg viewBox="0 0 24 24" fill="none" stroke="var(--ok-color)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>TessioScript Mod Menú - Enhanced y Legacy</li>
             <li><span class="feat-icon" data-tip="Herramientas esenciales para moverte y jugar sin las restricciones básicas del juego."><svg viewBox="0 0 24 24" fill="none" stroke="var(--ok-color)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Acceso a Las Funciones Basicas</li>
@@ -519,7 +519,7 @@
           <span class="plan-badge">VIP · Invitación</span>
           <p class="plan-name">DEUS GG</p>
           <p class="plan-tagline">Acceso completo de por vida, solo por invitación.</p>
-          <div class="plan-price"><b>$250</b><span>/ único pago</span></div>
+          <div class="plan-price"><b class="js-count" data-target="250" data-decimals="0">$0</b><span>/ único pago</span></div>
           <p class="plan-invite-note">Solo por invitación</p>
               <ul>
                 <li><span class="feat-icon" data-tip="Acceso de por vida a todas las funciones actuales y futuras del menú, sin pagos recurrentes, sin límites."><svg viewBox="0 0 24 24" fill="none" stroke="var(--ok-color)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Acceso a Todo de Por Vida</li>
@@ -701,7 +701,8 @@
         gallery.innerHTML = '<p class="video-gallery-empty">No se pudieron cargar los videos. Visita nuestro <a href="https://www.youtube.com/@TessioScript" target="_blank" rel="noopener" style="color:var(--accent-pink-soft)">canal de YouTube</a>.</p>';
       });
   })();
-// Contador animado de 0 al valor real
+
+  // Contador animado de 0 al valor real
 (function(){
   function animateCount(el){
     var target = parseFloat(el.dataset.target);
@@ -750,7 +751,6 @@
     counters.forEach(animateCount);
   }
 })();
-  
 </script>
 
 </body>
