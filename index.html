@@ -167,6 +167,46 @@
   .btn-ghost:hover{ border-color: var(--accent-pink-soft); }
   .btn-small{ padding: 8px 16px; font-size: 0.88rem; }
 
+  /* ---------- Language switcher ---------- */
+  .lang-switch{ position:relative; }
+  .lang-trigger{
+    display:inline-flex; align-items:center; gap:8px;
+    background: transparent; border: 1px solid var(--line-strong);
+    color: var(--text-primary); font-family:'Inter',sans-serif; font-weight:600; font-size:0.92rem;
+    padding: 8px 14px; border-radius: var(--radius-sm); cursor:pointer;
+    transition: border-color .15s ease, background .15s ease;
+  }
+  .lang-trigger:hover{ border-color: var(--accent-pink-soft); background: rgba(168,108,230,0.08); }
+  .lang-trigger svg{ flex-shrink:0; }
+  .lang-trigger .lang-chev{ transition: transform .15s ease; }
+  .lang-switch.open .lang-trigger .lang-chev{ transform: rotate(180deg); }
+  .lang-code{ letter-spacing:0.02em; }
+  .lang-menu{
+    position:absolute; top: calc(100% + 8px); right:0; z-index:70;
+    min-width: 190px;
+    background: var(--bg-elevated-2); border: 1px solid var(--line-strong);
+    border-radius: var(--radius-md); padding: 6px;
+    box-shadow: 0 22px 50px -16px rgba(0,0,0,0.65);
+    opacity:0; visibility:hidden; transform: translateY(-6px);
+    transition: opacity .15s ease, transform .15s ease, visibility .15s ease;
+  }
+  .lang-switch.open .lang-menu{ opacity:1; visibility:visible; transform: translateY(0); }
+  .lang-option{
+    display:flex; align-items:center; gap:12px; width:100%;
+    background:transparent; border:none; text-align:left; cursor:pointer;
+    color: var(--text-muted); font-family:'Inter',sans-serif; font-size:0.94rem; font-weight:500;
+    padding: 10px 12px; border-radius: var(--radius-sm);
+    transition: background .12s ease, color .12s ease;
+  }
+  .lang-option:hover{ background: rgba(168,108,230,0.12); color: var(--text-primary); }
+  .lang-option.active{ background: rgba(139,59,255,0.22); color: var(--text-primary); }
+  .lang-option .lang-flag{
+    flex-shrink:0; width:26px; height:18px; border-radius:3px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:0.68rem; font-weight:800; letter-spacing:0.01em;
+    background: var(--bg-elevated); color: var(--text-muted);
+  }
+
   /* ---------- Hero: full-height splash, centered ---------- */
   .hero{
     min-height: 100vh; display:flex; flex-direction:column;
@@ -416,7 +456,20 @@
         <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.3 5.3A17.6 17.6 0 0016 4l-.3.6a15 15 0 014.2 1.6 16.6 16.6 0 00-14.6 0A15 15 0 019.7 4.6 17.6 17.6 0 004 5.3C1.7 9.6 1 13.8 1.3 18a17.7 17.7 0 005.5 2.7l.9-1.4a11 11 0 01-1.8-.9l.5-.4a12.7 12.7 0 0011.2 0l.5.4a11 11 0 01-1.8.9l.9 1.4A17.7 17.7 0 0022.7 18c.4-4.9-.8-9-2.4-12.7zM8.7 15.4c-.9 0-1.7-.9-1.7-1.9s.7-1.9 1.7-1.9 1.7.9 1.7 1.9-.8 1.9-1.7 1.9zm6.6 0c-.9 0-1.7-.9-1.7-1.9s.7-1.9 1.7-1.9 1.7.9 1.7 1.9-.8 1.9-1.7 1.9z"/></svg>
         Discord
       </a>
-      <a href="#" class="btn btn-primary btn-small">Login →</a>
+      <div class="lang-switch" id="langSwitch">
+        <button class="lang-trigger" id="langTrigger" aria-haspopup="listbox" aria-expanded="false">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 2.5 15.5 0 18M12 3c-2.5 2.5-2.5 15.5 0 18"/></svg>
+          <span class="lang-code" id="langCurrentCode">ES</span>
+          <svg class="lang-chev" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="lang-menu" id="langMenu" role="listbox">
+          <button class="lang-option" data-lang="en" role="option"><span class="lang-flag">US</span>Inglés</button>
+          <button class="lang-option" data-lang="pt" role="option"><span class="lang-flag">BR</span>BR portuguesa</button>
+          <button class="lang-option active" data-lang="es" role="option"><span class="lang-flag">ES</span>Español</button>
+          <button class="lang-option" data-lang="fr" role="option"><span class="lang-flag">FR</span>Francés</button>
+        </div>
+      </div>
+      <a href="#" class="btn btn-primary btn-small" data-i18n="nav.login">Login →</a>
     </div>
   </div>
 </header>
@@ -426,13 +479,13 @@
     <div class="hero-logo-wrap">
       <img src="logo.png" alt="TessioScript" class="hero-logo">
     </div>
-    <h1>El Mod Menú que R* no quiere que tengas</h1>
-    <p class="lead">Protegiendo tu cuenta con el mejor y más seguro recovery desde 2023.</p>
+    <h1 data-i18n="hero.title">El Mod Menú que R* no quiere que tengas</h1>
+    <p class="lead" data-i18n="hero.lead">Protegiendo tu cuenta con el mejor y más seguro recovery desde 2023.</p>
     <div class="hero-ctas">
-      <a href="#precios" class="btn btn-primary">Ver Suscripciones →</a>
+      <a href="#precios" class="btn btn-primary" data-i18n="hero.cta">Ver Suscripciones →</a>
     </div>
     <div class="scroll-hint">
-      Desplázate Hacia Abajo
+      <span data-i18n="hero.scroll">Desplázate Hacia Abajo</span>
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 4v16m0 0l-6-6m6 6l6-6"/></svg>
     </div>
     <button class="theme-toggle" id="themeToggle" aria-label="Cambiar tema">
@@ -442,15 +495,15 @@
 
   <section class="preview">
     <div class="wrap">
-      <img class="preview-img reveal" src="mod-menu-preview.png" alt="Vista previa del mod menu TessioScript">
+      <img class="preview-img reveal" src="mod-menu-preview.png" data-i18n-attr-alt="hero.previewAlt" alt="Vista previa del mod menu TessioScript">
     </div>
   </section>
 
   <section id="funciones">
     <div class="wrap">
       <div class="section-head reveal">
-        <h2>Un mod menú, infinitas posibilidades</h2>
-        <p>Funciones confiables, seguras, probadas y diseñadas para ti.</p>
+        <h2 data-i18n="funciones.title">Un mod menú, infinitas posibilidades</h2>
+        <p data-i18n="funciones.subtitle">Funciones confiables, seguras, probadas y diseñadas para ti.</p>
       </div>
       <div class="features-grid reveal">
         <div class="feature">
@@ -490,8 +543,8 @@
   <section id="precios">
     <div class="wrap">
       <div class="section-head reveal">
-        <h2>Selecciona tu suscripción</h2>
-        <p>Los tres planes incluyen el acceso al menú en la versión de Legacy, actualizaciones automáticas, soporte por Discord y mucho más.</p>
+        <h2 data-i18n="precios.title">Selecciona tu suscripción</h2>
+        <p data-i18n="precios.subtitle">Los tres planes incluyen el acceso al menú en la versión de Legacy, actualizaciones automáticas, soporte por Discord y mucho más.</p>
       </div>
       <div class="pricing-grid reveal">
 
@@ -601,11 +654,11 @@
   <section id="videos">
     <div class="wrap">
       <div class="section-head reveal">
-        <h2>Últimos videos</h2>
-        <p>Tutoriales, actualizaciones y novedades directo desde nuestro canal de YouTube.</p>
+        <h2 data-i18n="videos.title">Últimos videos</h2>
+        <p data-i18n="videos.subtitle">Tutoriales, actualizaciones y novedades directo desde nuestro canal de YouTube.</p>
       </div>
       <div class="video-gallery" id="video-gallery">
-        <p class="video-gallery-empty">Cargando videos…</p>
+        <p class="video-gallery-empty" data-i18n="videos.loading">Cargando videos…</p>
       </div>
     </div>
   </section>
@@ -613,8 +666,8 @@
   <section id="faq">
     <div class="wrap">
       <div class="section-head reveal">
-        <h2>Preguntas frecuentes</h2>
-        <p>Lo que más nos preguntan antes de suscribirse.</p>
+        <h2 data-i18n="faq.title">Preguntas frecuentes</h2>
+        <p data-i18n="faq.subtitle">Lo que más nos preguntan antes de suscribirse.</p>
       </div>
       <div class="faq reveal">
         <details open>
@@ -644,9 +697,9 @@
   <section>
     <div class="wrap">
       <div class="cta-band reveal">
-        <h2>¿No sabes qué plan elegir?</h2>
-        <p>Empieza con KLVO GG y sube de nivel cuando lo necesites, sin perder tu progreso.</p>
-        <a href="#precios" class="btn btn-primary">Ver los planes</a>
+        <h2 data-i18n="cta.title">¿No sabes qué plan elegir?</h2>
+        <p data-i18n="cta.subtitle">Empieza con KLVO GG y sube de nivel cuando lo necesites, sin perder tu progreso.</p>
+        <a href="#precios" class="btn btn-primary" data-i18n="cta.button">Ver los planes</a>
       </div>
     </div>
   </section>
@@ -661,14 +714,14 @@
       </div>
       <div class="footer-cols">
         <div class="footer-col">
-          <h4>Producto</h4>
-          <a href="#funciones">Funciones</a>
-          <a href="#precios">Precios</a>
-          <a href="#videos">Últimos videos</a>
-          <a href="#faq">Preguntas frecuentes</a>
+          <h4 data-i18n="footer.product">Producto</h4>
+          <a href="#funciones" data-i18n="footer.features">Funciones</a>
+          <a href="#precios" data-i18n="footer.pricing">Precios</a>
+          <a href="#videos" data-i18n="footer.videos">Últimos videos</a>
+          <a href="#faq" data-i18n="footer.faq">Preguntas frecuentes</a>
         </div>
         <div class="footer-col">
-          <h4>Comunidad</h4>
+          <h4 data-i18n="footer.community">Comunidad</h4>
           <a href="#">Discord</a>
           <a href="#">Patreon</a>
           <a href="#">GitHub</a>
@@ -676,8 +729,8 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <span>© 2026 TessioScript. Proyecto independiente, sin afiliación con Rockstar Games.</span>
-      <span>Hecho para la comunidad de GTA Online.</span>
+      <span data-i18n="footer.copyright">© 2026 TessioScript. Proyecto independiente, sin afiliación con Rockstar Games.</span>
+      <span data-i18n="footer.tagline">Hecho para la comunidad de GTA Online.</span>
     </div>
   </div>
 </footer>
@@ -900,6 +953,191 @@
     } else {
       counters.forEach(animateCount);
     }
+  })();
+
+  // ---------- Sistema de traducción (EN / PT / ES / FR) ----------
+  (function(){
+    var translations = {
+      es: {
+        "nav.login": "Login →",
+        "hero.title": "El Mod Menú que R* no quiere que tengas",
+        "hero.lead": "Protegiendo tu cuenta con el mejor y más seguro recovery desde 2023.",
+        "hero.cta": "Ver Suscripciones →",
+        "hero.scroll": "Desplázate Hacia Abajo",
+        "hero.previewAlt": "Vista previa del mod menu TessioScript",
+        "funciones.title": "Un mod menú, infinitas posibilidades",
+        "funciones.subtitle": "Funciones confiables, seguras, probadas y diseñadas para ti.",
+        "precios.title": "Selecciona tu suscripción",
+        "precios.subtitle": "Los tres planes incluyen el acceso al menú en la versión de Legacy, actualizaciones automáticas, soporte por Discord y mucho más.",
+        "videos.title": "Últimos videos",
+        "videos.subtitle": "Tutoriales, actualizaciones y novedades directo desde nuestro canal de YouTube.",
+        "videos.loading": "Cargando videos…",
+        "faq.title": "Preguntas frecuentes",
+        "faq.subtitle": "Lo que más nos preguntan antes de suscribirse.",
+        "cta.title": "¿No sabes qué plan elegir?",
+        "cta.subtitle": "Empieza con KLVO GG y sube de nivel cuando lo necesites, sin perder tu progreso.",
+        "cta.button": "Ver los planes",
+        "footer.product": "Producto",
+        "footer.features": "Funciones",
+        "footer.pricing": "Precios",
+        "footer.videos": "Últimos videos",
+        "footer.faq": "Preguntas frecuentes",
+        "footer.community": "Comunidad",
+        "footer.copyright": "© 2026 TessioScript. Proyecto independiente, sin afiliación con Rockstar Games.",
+        "footer.tagline": "Hecho para la comunidad de GTA Online."
+      },
+      en: {
+        "nav.login": "Login →",
+        "hero.title": "The Mod Menu R* Doesn't Want You To Have",
+        "hero.lead": "Protecting your account with the best and safest recovery since 2023.",
+        "hero.cta": "View Subscriptions →",
+        "hero.scroll": "Scroll Down",
+        "hero.previewAlt": "TessioScript mod menu preview",
+        "funciones.title": "One mod menu, endless possibilities",
+        "funciones.subtitle": "Reliable, safe, tested features designed for you.",
+        "precios.title": "Choose your subscription",
+        "precios.subtitle": "All three plans include Legacy menu access, automatic updates, Discord support, and much more.",
+        "videos.title": "Latest videos",
+        "videos.subtitle": "Tutorials, updates, and news straight from our YouTube channel.",
+        "videos.loading": "Loading videos…",
+        "faq.title": "Frequently asked questions",
+        "faq.subtitle": "What people ask us most before subscribing.",
+        "cta.title": "Not sure which plan to pick?",
+        "cta.subtitle": "Start with KLVO GG and upgrade whenever you need to, without losing your progress.",
+        "cta.button": "View plans",
+        "footer.product": "Product",
+        "footer.features": "Features",
+        "footer.pricing": "Pricing",
+        "footer.videos": "Latest videos",
+        "footer.faq": "FAQ",
+        "footer.community": "Community",
+        "footer.copyright": "© 2026 TessioScript. Independent project, not affiliated with Rockstar Games.",
+        "footer.tagline": "Made for the GTA Online community."
+      },
+      pt: {
+        "nav.login": "Entrar →",
+        "hero.title": "O Mod Menu que a R* não quer que você tenha",
+        "hero.lead": "Protegendo sua conta com o melhor e mais seguro recovery desde 2023.",
+        "hero.cta": "Ver Assinaturas →",
+        "hero.scroll": "Role Para Baixo",
+        "hero.previewAlt": "Prévia do mod menu TessioScript",
+        "funciones.title": "Um mod menu, possibilidades infinitas",
+        "funciones.subtitle": "Funções confiáveis, seguras, testadas e feitas para você.",
+        "precios.title": "Selecione sua assinatura",
+        "precios.subtitle": "Os três planos incluem acesso ao menu na versão Legacy, atualizações automáticas, suporte via Discord e muito mais.",
+        "videos.title": "Últimos vídeos",
+        "videos.subtitle": "Tutoriais, atualizações e novidades direto do nosso canal do YouTube.",
+        "videos.loading": "Carregando vídeos…",
+        "faq.title": "Perguntas frequentes",
+        "faq.subtitle": "O que mais perguntam antes de assinar.",
+        "cta.title": "Não sabe qual plano escolher?",
+        "cta.subtitle": "Comece com KLVO GG e suba de nível quando precisar, sem perder seu progresso.",
+        "cta.button": "Ver os planos",
+        "footer.product": "Produto",
+        "footer.features": "Funções",
+        "footer.pricing": "Preços",
+        "footer.videos": "Últimos vídeos",
+        "footer.faq": "Perguntas frequentes",
+        "footer.community": "Comunidade",
+        "footer.copyright": "© 2026 TessioScript. Projeto independente, sem afiliação com a Rockstar Games.",
+        "footer.tagline": "Feito para a comunidade de GTA Online."
+      },
+      fr: {
+        "nav.login": "Connexion →",
+        "hero.title": "Le Mod Menu que R* ne veut pas que vous ayez",
+        "hero.lead": "Protégeant votre compte avec le meilleur et le plus sûr recovery depuis 2023.",
+        "hero.cta": "Voir les Abonnements →",
+        "hero.scroll": "Défilez Vers le Bas",
+        "hero.previewAlt": "Aperçu du mod menu TessioScript",
+        "funciones.title": "Un mod menu, des possibilités infinies",
+        "funciones.subtitle": "Des fonctions fiables, sûres, testées et conçues pour vous.",
+        "precios.title": "Choisissez votre abonnement",
+        "precios.subtitle": "Les trois formules incluent l'accès au menu en version Legacy, les mises à jour automatiques, le support Discord et bien plus.",
+        "videos.title": "Dernières vidéos",
+        "videos.subtitle": "Tutoriels, mises à jour et actualités directement depuis notre chaîne YouTube.",
+        "videos.loading": "Chargement des vidéos…",
+        "faq.title": "Questions fréquentes",
+        "faq.subtitle": "Ce qu'on nous demande le plus avant de s'abonner.",
+        "cta.title": "Vous ne savez pas quel plan choisir ?",
+        "cta.subtitle": "Commencez avec KLVO GG et montez de niveau quand vous en avez besoin, sans perdre votre progression.",
+        "cta.button": "Voir les formules",
+        "footer.product": "Produit",
+        "footer.features": "Fonctions",
+        "footer.pricing": "Tarifs",
+        "footer.videos": "Dernières vidéos",
+        "footer.faq": "Questions fréquentes",
+        "footer.community": "Communauté",
+        "footer.copyright": "© 2026 TessioScript. Projet indépendant, sans affiliation avec Rockstar Games.",
+        "footer.tagline": "Fait pour la communauté GTA Online."
+      }
+    };
+
+    var langNames = { en: 'EN', pt: 'BR', es: 'ES', fr: 'FR' };
+
+    var switchEl = document.getElementById('langSwitch');
+    var triggerEl = document.getElementById('langTrigger');
+    var menuEl = document.getElementById('langMenu');
+    var codeEl = document.getElementById('langCurrentCode');
+    var options = menuEl.querySelectorAll('.lang-option');
+
+    function applyLanguage(lang){
+      if(!translations[lang]) lang = 'es';
+      var dict = translations[lang];
+
+      document.querySelectorAll('[data-i18n]').forEach(function(el){
+        var key = el.getAttribute('data-i18n');
+        if(dict[key]){ el.textContent = dict[key]; }
+      });
+      document.querySelectorAll('[data-i18n-attr-alt]').forEach(function(el){
+        var key = el.getAttribute('data-i18n-attr-alt');
+        if(dict[key]){ el.setAttribute('alt', dict[key]); }
+      });
+
+      document.documentElement.setAttribute('lang', lang);
+      codeEl.textContent = langNames[lang] || lang.toUpperCase();
+
+      options.forEach(function(opt){
+        opt.classList.toggle('active', opt.getAttribute('data-lang') === lang);
+      });
+
+      try{ localStorage.setItem('ts_lang', lang); }catch(e){}
+    }
+
+    function openMenu(){
+      switchEl.classList.add('open');
+      triggerEl.setAttribute('aria-expanded', 'true');
+    }
+    function closeMenu(){
+      switchEl.classList.remove('open');
+      triggerEl.setAttribute('aria-expanded', 'false');
+    }
+
+    triggerEl.addEventListener('click', function(e){
+      e.stopPropagation();
+      if(switchEl.classList.contains('open')){ closeMenu(); } else { openMenu(); }
+    });
+
+    options.forEach(function(opt){
+      opt.addEventListener('click', function(){
+        applyLanguage(opt.getAttribute('data-lang'));
+        closeMenu();
+      });
+    });
+
+    document.addEventListener('click', function(e){
+      if(!switchEl.contains(e.target)){ closeMenu(); }
+    });
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape'){ closeMenu(); }
+    });
+
+    var savedLang = 'es';
+    try{
+      var stored = localStorage.getItem('ts_lang');
+      if(stored && translations[stored]) savedLang = stored;
+    }catch(e){}
+
+    applyLanguage(savedLang);
   })();
 </script>
 
