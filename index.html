@@ -59,6 +59,63 @@
   .wrap{ max-width: var(--maxw); margin: 0 auto; padding: 0 28px; }
   :focus-visible{ outline: 2px solid var(--accent-pink-soft); outline-offset: 3px; }
 
+  /* ---------- Loading screen ---------- */
+  #loader{
+    position: fixed; inset: 0; z-index: 9999;
+    background: var(--bg-void);
+    display:flex; align-items:center; justify-content:center;
+    transition: opacity .5s ease, visibility .5s ease;
+  }
+  #loader.hidden{ opacity:0; visibility:hidden; pointer-events:none; }
+  .loader-inner{ text-align:center; }
+  .loader-status{
+    font-family:'Space Grotesk',sans-serif; font-weight:700; letter-spacing:0.14em;
+    font-size:0.9rem; color:var(--text-primary); margin:0 0 26px; text-transform:uppercase;
+    position:relative; display:inline-block;
+  }
+  .loader-status.glitching{ animation: glitch-anim .28s steps(2) both; }
+  @keyframes glitch-anim{
+    0%{ transform:translate(0); }
+    20%{ transform:translate(-3px,1px); text-shadow: -2px 0 var(--accent-pink), 2px 0 var(--accent-blue); }
+    40%{ transform:translate(3px,-1px); text-shadow: 2px 0 var(--accent-pink), -2px 0 var(--accent-blue); clip-path: inset(20% 0 40% 0); }
+    60%{ transform:translate(-2px,0); text-shadow:none; clip-path: inset(60% 0 5% 0); }
+    80%{ transform:translate(2px,1px); text-shadow: 1px 0 var(--accent-pink), -1px 0 var(--accent-blue); clip-path: inset(0 0 0 0); }
+    100%{ transform:translate(0); text-shadow:none; }
+  }
+  .loader-bar{ display:flex; gap:4px; margin-bottom:18px; }
+  .loader-block{
+    width:14px; height:24px; border-radius:2px;
+    background: rgba(168,108,230,0.14);
+    transition: background .12s ease, box-shadow .12s ease;
+  }
+  .loader-block.lit{
+    background: linear-gradient(180deg, var(--accent-pink-soft), var(--accent-purple-soft));
+    box-shadow: 0 0 10px var(--accent-pink-soft), 0 0 20px var(--accent-purple-soft);
+  }
+  .loader-percent{
+    font-family:'Space Grotesk',sans-serif; letter-spacing:0.08em;
+    color: var(--text-faint); font-size:0.85rem; margin:0;
+  }
+
+  /* ---------- Scroll progress bar ---------- */
+  #scrollProgress{
+    position: fixed; top:0; left:0; right:0; z-index: 60;
+    height: 6px;
+    background: rgba(24,14,40,0.75);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    opacity: 0; transform: translateY(-100%);
+    transition: opacity .3s ease, transform .3s ease;
+    pointer-events: none;
+  }
+  #scrollProgress.visible{ opacity:1; transform: translateY(0); }
+  #scrollProgressBar{
+    height:100%; width:0%;
+    background: var(--accent-pink-soft);
+    box-shadow: 0 0 8px var(--accent-pink-soft), 0 0 18px var(--accent-pink-soft);
+    transition: width .08s linear;
+  }
+
   /* ---------- Ambient background ---------- */
   .glow-field{ position: fixed; inset: 0; z-index: -1; pointer-events: none; }
   .glow{
@@ -331,6 +388,16 @@
 </style>
 </head>
 <body>
+
+<div id="loader">
+  <div class="loader-inner">
+    <p class="loader-status" id="loaderStatus">INICIALIZANDO</p>
+    <div class="loader-bar" id="loaderBar"></div>
+    <p class="loader-percent" id="loaderPercent">0%</p>
+  </div>
+</div>
+
+<div id="scrollProgress"><div id="scrollProgressBar"></div></div>
 
 <div class="glow-field">
   <div class="glow g1"></div>
@@ -616,6 +683,75 @@
 </footer>
 
 <script>
+  // ---------- Loading screen ----------
+  (function(){
+    var loader = document.getElementById('loader');
+    var statusEl = document.getElementById('loaderStatus');
+    var percentEl = document.getElementById('loaderPercent');
+    var barEl = document.getElementById('loaderBar');
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if(reduceMotion){
+      loader.style.display = 'none';
+      document.body.style.overflow = '';
+    } else {
+      document.body.style.overflow = 'hidden';
+      var totalBlocks = 24;
+      for(var i = 0; i < totalBlocks; i++){
+        var block = document.createElement('div');
+        block.className = 'loader-block';
+        barEl.appendChild(block);
+      }
+      var blocks = barEl.querySelectorAll('.loader-block');
+
+      var messages = ['INICIALIZANDO', 'VERIFICANDO LICENCIA', 'CARGANDO MÓDULOS', 'DESENCRIPTANDO DATOS', 'LISTO'];
+      var msgIndex = 0;
+
+      function glitchTo(text){
+        statusEl.classList.add('glitching');
+        setTimeout(function(){
+          statusEl.textContent = text;
+        }, 90);
+        setTimeout(function(){
+          statusEl.classList.remove('glitching');
+        }, 280);
+      }
+
+      var progress = 0;
+      var duration = 2200;
+      var startTime = null;
+
+      function step(ts){
+        if(!startTime) startTime = ts;
+        progress = Math.min((ts - startTime) / duration, 1);
+        var pct = Math.floor(progress * 100);
+        percentEl.textContent = pct + '%';
+
+        var litCount = Math.floor(progress * totalBlocks);
+        blocks.forEach(function(b, idx){
+          if(idx < litCount){ b.classList.add('lit'); } else { b.classList.remove('lit'); }
+        });
+
+        var targetMsgIndex = Math.min(Math.floor(progress * messages.length), messages.length - 1);
+        if(targetMsgIndex !== msgIndex){
+          msgIndex = targetMsgIndex;
+          glitchTo(messages[msgIndex]);
+        }
+
+        if(progress < 1){
+          requestAnimationFrame(step);
+        } else {
+          blocks.forEach(function(b){ b.classList.add('lit'); });
+          setTimeout(function(){
+            loader.classList.add('hidden');
+            document.body.style.overflow = '';
+          }, 350);
+        }
+      }
+      requestAnimationFrame(step);
+    }
+  })();
+
   var toggleBtn = document.getElementById('themeToggle');
   if(toggleBtn){
     toggleBtn.addEventListener('click', function(){
@@ -638,8 +774,8 @@
   }
 
   // 3D tilt / parallax on pricing cards
-  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if(!reduceMotion){
+  var reduceMotionTilt = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(!reduceMotionTilt){
     document.querySelectorAll('.plan').forEach(function(card){
       card.addEventListener('mousemove', function(e){
         var rect = card.getBoundingClientRect();
@@ -656,6 +792,21 @@
       });
     });
   }
+
+  // Barra de progreso de scroll (morado oscuro con blur + relleno rosa neón)
+  (function(){
+    var wrap = document.getElementById('scrollProgress');
+    var bar = document.getElementById('scrollProgressBar');
+    function onScroll(){
+      var scrollTop = window.scrollY || document.documentElement.scrollTop;
+      var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      var pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+      bar.style.width = pct + '%';
+      if(scrollTop > 60){ wrap.classList.add('visible'); } else { wrap.classList.remove('visible'); }
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  })();
 
   // Últimos videos de YouTube (feed RSS del canal, siempre actualizado)
   (function loadLatestVideos(){
@@ -703,54 +854,53 @@
   })();
 
   // Contador animado de 0 al valor real
-(function(){
-  function animateCount(el){
-    var target = parseFloat(el.dataset.target);
-    var decimals = parseInt(el.dataset.decimals || "0", 10);
-    var duration = 1200; // ms
-    var start = performance.now();
-
-    function step(now){
-      var progress = Math.min((now - start) / duration, 1);
-      var eased = 1 - Math.pow(1 - progress, 3); // ease-out cúbico
-      var value = target * eased;
-      el.textContent = "$" + value.toFixed(decimals);
-      if(progress < 1){
-        requestAnimationFrame(step);
-      } else {
-        el.textContent = "$" + target.toFixed(decimals);
-      }
-    }
-    requestAnimationFrame(step);
-  }
-
-  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var counters = document.querySelectorAll('.js-count');
-
-  if(reduceMotion){
-    // Sin animación: muestra el valor final directo
-    counters.forEach(function(el){
+  (function(){
+    function animateCount(el){
       var target = parseFloat(el.dataset.target);
       var decimals = parseInt(el.dataset.decimals || "0", 10);
-      el.textContent = "$" + target.toFixed(decimals);
-    });
-    return;
-  }
+      var duration = 1200; // ms
+      var start = performance.now();
 
-  if('IntersectionObserver' in window){
-    var countIO = new IntersectionObserver(function(entries){
-      entries.forEach(function(entry){
-        if(entry.isIntersecting){
-          animateCount(entry.target);
-          countIO.unobserve(entry.target);
+      function step(now){
+        var progress = Math.min((now - start) / duration, 1);
+        var eased = 1 - Math.pow(1 - progress, 3); // ease-out cúbico
+        var value = target * eased;
+        el.textContent = "$" + value.toFixed(decimals);
+        if(progress < 1){
+          requestAnimationFrame(step);
+        } else {
+          el.textContent = "$" + target.toFixed(decimals);
         }
+      }
+      requestAnimationFrame(step);
+    }
+
+    var reduceMotionCount = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var counters = document.querySelectorAll('.js-count');
+
+    if(reduceMotionCount){
+      counters.forEach(function(el){
+        var target = parseFloat(el.dataset.target);
+        var decimals = parseInt(el.dataset.decimals || "0", 10);
+        el.textContent = "$" + target.toFixed(decimals);
       });
-    }, { threshold: 0.4 });
-    counters.forEach(function(el){ countIO.observe(el); });
-  } else {
-    counters.forEach(animateCount);
-  }
-})();
+      return;
+    }
+
+    if('IntersectionObserver' in window){
+      var countIO = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if(entry.isIntersecting){
+            animateCount(entry.target);
+            countIO.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.4 });
+      counters.forEach(function(el){ countIO.observe(el); });
+    } else {
+      counters.forEach(animateCount);
+    }
+  })();
 </script>
 
 </body>
